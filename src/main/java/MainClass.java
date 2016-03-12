@@ -38,7 +38,7 @@ public class MainClass {
         Map<Edge, Double> current = voltageSolver.solve();
         Layout<Vertex, Edge> circleLayout = new CircleLayout<>(graph);
         BasicVisualizationServer<Vertex, Edge> basicVisualizationServer = new BasicVisualizationServer<>(circleLayout);
-        basicVisualizationServer.getRenderContext().setEdgeLabelTransformer(edge -> current.get(edge).toString() + " V");
+        basicVisualizationServer.getRenderContext().setEdgeLabelTransformer(edge -> edge.getId() + " " + current.get(edge).toString() + " V");
         basicVisualizationServer.getRenderContext().setVertexLabelTransformer(vertex -> String.valueOf(vertex.getId()));
         basicVisualizationServer.setPreferredSize(new Dimension(800, 800));
 

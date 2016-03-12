@@ -18,12 +18,12 @@ import static org.junit.Assert.assertEquals;
  * Created by Mariusz on 12.03.2016.
  */
 public class VoltageSolverTest {
-    private Graph<Vertex, Edge> graph;
-    private Voltage<Vertex> voltage;
+    protected Graph<Vertex, Edge> graph;
+    protected Voltage<Vertex> voltage;
 
     @Before
     public void setUp() throws Exception {
-        File file = new File(getClass().getResource("test.txt").getPath());
+        File file = new File(VoltageSolverTest.class.getResource("test.txt").getPath());
         InputFileParser<Vertex, Edge> inputFileParser = new InputFileParser<>(id -> new Vertex(id), r -> new Edge(r), file);
         inputFileParser.parseInput();
         graph = inputFileParser.getGraph();
