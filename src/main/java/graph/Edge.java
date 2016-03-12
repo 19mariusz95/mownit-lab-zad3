@@ -1,5 +1,7 @@
 package graph;
 
+import java.util.Objects;
+
 /**
  * Created by Mariusz on 12.03.2016.
  */
@@ -36,5 +38,10 @@ public class Edge {
         if (o == null || getClass() != o.getClass()) return false;
         Edge edge = (Edge) o;
         return getId() == edge.getId();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
     }
 }

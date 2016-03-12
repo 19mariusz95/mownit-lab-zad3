@@ -6,13 +6,16 @@ import graph.Edge;
 import graph.Vertex;
 import parser.InputFileParser;
 import solver.VoltageSolver;
+import solver.cycle.CycleDetector;
 import voltage.Voltage;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Logger;
 
 /**
@@ -34,8 +37,14 @@ public class MainClass {
         }
         Graph<Vertex, Edge> graph = inputFileParser.getGraph();
         Voltage<Vertex> voltage = inputFileParser.getVoltage();
-        VoltageSolver<Vertex, Edge> voltageSolver = new VoltageSolver<>(graph, voltage);
+
+        CycleDetector<Vertex, Edge> cycleDetector = new CycleDetector<>(graph);
+
+        Set<List<Edge>> cycles = cycleDetector.getSetOfCycles(voltage.getU());
+
+        VoltageSolver<Vertex, Edge> voltageSolver = new VoltageSolver<>(graph, cycles, voltage);
         Map<Edge, Double> current = voltageSolver.solve();
+
         Layout<Vertex, Edge> circleLayout = new CircleLayout<>(graph);
         BasicVisualizationServer<Vertex, Edge> basicVisualizationServer = new BasicVisualizationServer<>(circleLayout);
         basicVisualizationServer.getRenderContext().setEdgeLabelTransformer(edge -> edge.getId() + " " + current.get(edge).toString() + " V");

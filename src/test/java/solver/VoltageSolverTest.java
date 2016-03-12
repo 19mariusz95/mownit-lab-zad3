@@ -32,7 +32,7 @@ public class VoltageSolverTest {
 
     @Test
     public void testSolve() throws Exception {
-        VoltageSolver<Vertex, Edge> voltageSolver = new VoltageSolver<>(graph, voltage);
+        VoltageSolver<Vertex, Edge> voltageSolver = new VoltageSolver<>(graph, null, voltage);
         Map<Edge, Double> current = voltageSolver.solve();
         for (Edge e : graph.getEdges()) {
             assertEquals(current.get(e), voltage.getValue() / e.getResistance(), Double.MIN_VALUE);
