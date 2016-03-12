@@ -17,4 +17,9 @@ public class Edge {
     public void setResistance(double resistance) {
         this.resistance = resistance;
     }
+
+    @Override
+    public String toString() {
+        return String.valueOf(resistance);
+    }
 }
