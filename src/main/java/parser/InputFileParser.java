@@ -48,11 +48,14 @@ public class InputFileParser<V extends Vertex, E extends Edge> {
     public void parseInput() throws FileNotFoundException {
         graph = new UndirectedSparseGraph<>();
         Scanner scanner = new Scanner(new FileInputStream(file));
-        boolean flaga = true;
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
             if (line.trim().length() == 0) {
-                parseStrategy = (v1, v2, value, graph1) -> voltage = new Voltage<>(v1, v2, value);
+                parseStrategy = (v1, v2, value, graph1) -> {
+                    if (!graph.getOutEdges(v1).stream().filter(e -> graph1.getEndpoints(e).contains(v2)).findAny().isPresent())
+                        throw new IllegalArgumentException("There is no edge between vertices " + v1.getId() + " " + v2.getId());
+                    voltage = new Voltage<>(v1, v2, value);
+                };
                 continue;
             }
             String[] data = line.split(" ");

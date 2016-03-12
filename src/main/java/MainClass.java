@@ -40,7 +40,7 @@ public class MainClass {
 
         CycleDetector<Vertex, Edge> cycleDetector = new CycleDetector<>(graph);
 
-        Set<List<Edge>> cycles = cycleDetector.getSetOfCycles(voltage.getU());
+        Set<List<Edge>> cycles = cycleDetector.getSetOfCycles(voltage);
 
         VoltageSolver<Vertex, Edge> voltageSolver = new VoltageSolver<>(graph, cycles, voltage);
         Map<Edge, Double> current = voltageSolver.solve();

@@ -2,6 +2,7 @@ package solver.cycle;
 
 import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.graph.util.Pair;
+import voltage.Voltage;
 
 import java.util.*;
 
@@ -18,16 +19,14 @@ public class CycleDetector<V, E> {
         this.visited = new HashMap<>();
     }
 
-    public Set<List<E>> getSetOfCycles(V start) {
-        cycles = new TreeSet<>((Comparator<List<E>>) (o1, o2) -> {
-            if (o1.containsAll(o2) && o2.containsAll(o1))
-                return 0;
-            return 1;
-        });
+    public Set<List<E>> getSetOfCycles(Voltage<V> voltage) {
+        cycles = new HashSet<>();
+        V start = voltage.getU();
+        V next = voltage.getV();
         for (E edge : graph.getOutEdges(start)) {
             Pair<V> pair = graph.getEndpoints(edge);
             V nb = pair.getFirst() == start ? pair.getSecond() : pair.getFirst();
-            if (!visited.getOrDefault(nb, false)) {
+            if (nb == next && !visited.getOrDefault(nb, false)) {
                 visited.put(nb, true);
                 List<E> set = new ArrayList<>();
                 set.add(edge);
