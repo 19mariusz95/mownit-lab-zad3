@@ -37,7 +37,8 @@ public class MainClass {
         Map<Edge, Double> voltages = voltageSolver.solve();
         Layout<Vertex, Edge> circleLayout = new CircleLayout<>(graph);
         BasicVisualizationServer<Vertex, Edge> basicVisualizationServer = new BasicVisualizationServer<>(circleLayout);
-        basicVisualizationServer.getRenderContext().setEdgeLabelTransformer(edge -> voltages.get(edge).toString());
+        basicVisualizationServer.getRenderContext().setEdgeLabelTransformer(edge -> voltages.get(edge).toString() + " V");
+        basicVisualizationServer.getRenderContext().setVertexLabelTransformer(vertex -> String.valueOf(vertex.getId()));
         basicVisualizationServer.setPreferredSize(new Dimension(800, 800));
 
         JFrame frame = new JFrame("graph");
