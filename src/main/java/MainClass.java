@@ -29,15 +29,16 @@ public class MainClass {
             inputFileParser.parseInput();
         } catch (ArrayIndexOutOfBoundsException | FileNotFoundException e) {
             logger.warning(e.getMessage());
+            logger.info("You have to specify filename as argument");
             System.exit(1);
         }
         Graph<Vertex, Edge> graph = inputFileParser.getGraph();
         Voltage<Vertex> voltage = inputFileParser.getVoltage();
         VoltageSolver<Vertex, Edge> voltageSolver = new VoltageSolver<>(graph, voltage);
-        Map<Edge, Double> voltages = voltageSolver.solve();
+        Map<Edge, Double> current = voltageSolver.solve();
         Layout<Vertex, Edge> circleLayout = new CircleLayout<>(graph);
         BasicVisualizationServer<Vertex, Edge> basicVisualizationServer = new BasicVisualizationServer<>(circleLayout);
-        basicVisualizationServer.getRenderContext().setEdgeLabelTransformer(edge -> voltages.get(edge).toString() + " V");
+        basicVisualizationServer.getRenderContext().setEdgeLabelTransformer(edge -> current.get(edge).toString() + " V");
         basicVisualizationServer.getRenderContext().setVertexLabelTransformer(vertex -> String.valueOf(vertex.getId()));
         basicVisualizationServer.setPreferredSize(new Dimension(800, 800));
 
