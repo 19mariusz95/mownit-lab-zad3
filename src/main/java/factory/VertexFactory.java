@@ -5,5 +5,5 @@ package factory;
  */
 public interface VertexFactory<T> {
 
-    public T getVertex(int id);
+    T getVertex(int id);
 }

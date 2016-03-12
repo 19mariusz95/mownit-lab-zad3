@@ -5,5 +5,5 @@ package factory;
  */
 public interface EdgeFactory<T> {
 
-    public T getEdge(double r);
+    T getEdge(double r);
 }
