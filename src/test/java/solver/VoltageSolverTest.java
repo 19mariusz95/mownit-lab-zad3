@@ -6,6 +6,7 @@ import graph.Vertex;
 import org.junit.Before;
 import org.junit.Test;
 import parser.InputFileParser;
+import solver.cycle.CycleDetector;
 import voltage.Voltage;
 
 import java.io.File;
@@ -19,7 +20,7 @@ import static org.junit.Assert.assertEquals;
  */
 public class VoltageSolverTest {
     protected Graph<Vertex, Edge> graph;
-    protected Voltage<Vertex> voltage;
+    protected Voltage<Vertex, Edge> voltage;
 
     @Before
     public void setUp() throws Exception {
@@ -32,10 +33,13 @@ public class VoltageSolverTest {
 
     @Test
     public void testSolve() throws Exception {
-        VoltageSolver<Vertex, Edge> voltageSolver = new VoltageSolver<>(graph, null, voltage);
+        CycleDetector<Vertex, Edge> cycleDetector = new CycleDetector<>(graph);
+        VoltageSolver<Vertex, Edge> voltageSolver = new VoltageSolver<>(graph, cycleDetector.getSetOfCycles(voltage), voltage);
         Map<Edge, Double> current = voltageSolver.solve();
+        final double[] rtmp = {0.0};
+        graph.getEdges().stream().forEach(e -> rtmp[0] += e.getResistance());
         for (Edge e : graph.getEdges()) {
-            assertEquals(current.get(e), voltage.getValue() / e.getResistance(), Double.MIN_VALUE);
+            assertEquals("edge: " + e.getId(), voltage.getValue() / rtmp[0], current.get(e), 0.05);
         }
     }
 }

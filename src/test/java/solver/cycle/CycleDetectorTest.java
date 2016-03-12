@@ -23,6 +23,6 @@ public class CycleDetectorTest extends VoltageSolverTest {
         Set<List<Edge>> list = cycleDetector.getSetOfCycles(voltage);
 
         System.out.println(list);
-        assertTrue(list.size() == 2);
+        assertTrue(list.size() == 1);
     }
 }

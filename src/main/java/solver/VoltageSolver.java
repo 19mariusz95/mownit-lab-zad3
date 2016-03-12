@@ -3,6 +3,7 @@ package solver;
 import edu.uci.ics.jung.graph.Graph;
 import graph.Edge;
 import graph.Vertex;
+import solver.equation.EquationSolver;
 import solver.matrix.Matrix;
 import voltage.Voltage;
 
@@ -15,11 +16,11 @@ import java.util.Set;
  * Created by Mariusz on 12.03.2016.
  */
 public class VoltageSolver<V extends Vertex, E extends Edge> {
-    Voltage<V> voltage;
+    Voltage<V, E> voltage;
     Set<List<E>> cycles;
     private Graph<V, E> graph;
 
-    public VoltageSolver(Graph<V, E> graph, Set<List<E>> cycles, Voltage<V> voltage) {
+    public VoltageSolver(Graph<V, E> graph, Set<List<E>> cycles, Voltage<V, E> voltage) {
         this.graph = graph;
         this.voltage = voltage;
         this.cycles = cycles;
@@ -33,9 +34,16 @@ public class VoltageSolver<V extends Vertex, E extends Edge> {
 
         matrix.print();
 
+        EquationSolver equationSolver = new EquationSolver(matrix);
+
+        double[] result = equationSolver.solve();
+
+        for (int i = 0; i < result.length; i++)
+            System.out.println(i + " " + result[i]);
+
         Map<E, Double> map = new HashMap<>();
         for (E e : graph.getEdges()) {
-            map.put(e, e.getResistance());
+            map.put(e, result[e.getId()]);
         }
         return map;
     }

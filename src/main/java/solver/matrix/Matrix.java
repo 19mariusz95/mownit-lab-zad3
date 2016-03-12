@@ -14,11 +14,11 @@ public class Matrix<V, E extends Edge> {
     double[][] matrix;
     private Graph<V, E> graph;
     private Set<List<E>> cycles;
-    private Voltage<V> voltage;
+    private Voltage<V, E> voltage;
     private int columns;
     private int rows;
 
-    public Matrix(Graph<V, E> graph, Set<List<E>> cycles, Voltage<V> voltage) {
+    public Matrix(Graph<V, E> graph, Set<List<E>> cycles, Voltage<V, E> voltage) {
         this.graph = graph;
         this.cycles = cycles;
         this.voltage = voltage;
@@ -79,5 +79,13 @@ public class Matrix<V, E extends Edge> {
             }
             System.out.println();
         }
+    }
+
+    public int getRows() {
+        return rows;
+    }
+
+    public int getColumns() {
+        return columns;
     }
 }

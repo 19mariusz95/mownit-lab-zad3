@@ -2,6 +2,7 @@ package solver.cycle;
 
 import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.graph.util.Pair;
+import graph.Edge;
 import voltage.Voltage;
 
 import java.util.*;
@@ -19,14 +20,14 @@ public class CycleDetector<V, E> {
         this.visited = new HashMap<>();
     }
 
-    public Set<List<E>> getSetOfCycles(Voltage<V> voltage) {
+    public Set<List<E>> getSetOfCycles(Voltage<V, Edge> voltage) {
         cycles = new HashSet<>();
         V start = voltage.getU();
         V next = voltage.getV();
-        for (E edge : graph.getOutEdges(start)) {
+        for (E edge : graph.getOutEdges(next)) {
             Pair<V> pair = graph.getEndpoints(edge);
-            V nb = pair.getFirst() == start ? pair.getSecond() : pair.getFirst();
-            if (nb == next && !visited.getOrDefault(nb, false)) {
+            V nb = pair.getFirst() == next ? pair.getSecond() : pair.getFirst();
+            if (!visited.getOrDefault(nb, false)) {
                 visited.put(nb, true);
                 List<E> set = new ArrayList<>();
                 set.add(edge);
@@ -38,15 +39,16 @@ public class CycleDetector<V, E> {
     }
 
     private void DFS(V start, V v, List<E> edges) {
+        List<E> l = new ArrayList<>(edges);
+        if (v == start) {
+            cycles.add(l);
+        }
         for (E edge : graph.getOutEdges(v)) {
             Pair<V> pair = graph.getEndpoints(edge);
             V nb = pair.getFirst() == v ? pair.getSecond() : pair.getFirst();
-            List<E> l = new ArrayList<>(edges);
             if (!l.contains(edge)) {
                 l.add(edge);
-                if (nb == start) {
-                    cycles.add(l);
-                } else if (!visited.getOrDefault(nb, false)) {
+                if (!visited.getOrDefault(nb, false)) {
                     visited.put(nb, true);
                     DFS(start, nb, l);
                     visited.put(nb, false);

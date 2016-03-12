@@ -36,11 +36,13 @@ public class MainClass {
             System.exit(1);
         }
         Graph<Vertex, Edge> graph = inputFileParser.getGraph();
-        Voltage<Vertex> voltage = inputFileParser.getVoltage();
+        Voltage<Vertex, Edge> voltage = inputFileParser.getVoltage();
 
         CycleDetector<Vertex, Edge> cycleDetector = new CycleDetector<>(graph);
 
         Set<List<Edge>> cycles = cycleDetector.getSetOfCycles(voltage);
+
+        System.out.println(cycles);
 
         VoltageSolver<Vertex, Edge> voltageSolver = new VoltageSolver<>(graph, cycles, voltage);
         Map<Edge, Double> current = voltageSolver.solve();
