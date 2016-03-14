@@ -11,7 +11,7 @@ import java.util.Set;
  * Created by Mariusz on 12.03.2016.
  */
 public class Matrix<V, E extends Edge> {
-    double[][] matrix;
+    private double[][] matrix;
     private Graph<V, E> graph;
     private Set<List<E>> cycles;
     private Voltage<V, E> voltage;
@@ -37,11 +37,11 @@ public class Matrix<V, E extends Edge> {
         matrix = new double[rows][columns];
         resetMatrix(matrix, rows, columns);
 
-        fillMatrix(matrix, rows, columns);
+        fillMatrix(matrix, columns);
 
     }
 
-    private void fillMatrix(double[][] matrix, int rows, int columns) {
+    private void fillMatrix(double[][] matrix, int columns) {
         int row = 0;
         for (List<E> cycle : cycles) {
             matrix[row][columns - 1] = voltage.getValue();

@@ -52,12 +52,7 @@ public class InputFileParser<V extends Vertex, E extends Edge> {
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
             if (line.trim().length() == 0) {
-                parseStrategy = (v1, v2, value, graph1) -> {
-                    E e = graph1.findEdge(v1, v2);
-                    if (e == null)
-                        throw new IllegalArgumentException("There is no edge " + v1.getId() + " " + v2.getId());
-                    voltage = new Voltage<>(v1, v2, e, value);
-                };
+                changeParseStrategyToVoltage();
                 continue;
             }
             String[] data = line.split(" ");
@@ -67,6 +62,15 @@ public class InputFileParser<V extends Vertex, E extends Edge> {
             parseStrategy.parseData(getVertex(u1ID), getVertex(u2ID), value, graph);
         }
         RepairDirectivity();
+    }
+
+    private void changeParseStrategyToVoltage() {
+        parseStrategy = (v1, v2, value, graph1) -> {
+            E e = graph1.findEdge(v1, v2);
+            if (e == null)
+                throw new IllegalArgumentException("There is no edge " + v1.getId() + " " + v2.getId());
+            voltage = new Voltage<>(v1, v2, e, value);
+        };
     }
 
     private void RepairDirectivity() {

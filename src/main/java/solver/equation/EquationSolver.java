@@ -19,6 +19,8 @@ public class EquationSolver {
         int columns = matrix.getColumns();
         int n = columns - 1;
 
+        //TODO choose which rows can be removed
+
         for (int i = 0; i < n; i++) {
             double maxEl = abs(matrix.getMatrix()[i][i]);
             int maxRow = i;

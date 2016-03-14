@@ -22,7 +22,7 @@ import java.util.logging.Logger;
  * Created by Mariusz on 12.03.2016.
  */
 public class MainClass {
-    public static Logger logger = Logger.getLogger(MainClass.class.getName());
+    private static Logger logger = Logger.getLogger(MainClass.class.getName());
 
     public static void main(String[] args) {
         InputFileParser<Vertex, Edge> inputFileParser = null;

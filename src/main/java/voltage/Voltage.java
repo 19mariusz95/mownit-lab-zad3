@@ -6,10 +6,10 @@ import graph.Edge;
  * Created by Mariusz on 12.03.2016.
  */
 public class Voltage<Vertex, E extends Edge> {
-    Vertex u;
-    Vertex v;
-    E edge;
-    double value;
+    private Vertex u;
+    private Vertex v;
+    private E edge;
+    private double value;
 
     public Voltage(Vertex u, Vertex v, E edge, double value) {
         this.u = u;

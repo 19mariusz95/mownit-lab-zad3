@@ -16,8 +16,8 @@ import java.util.Set;
  * Created by Mariusz on 12.03.2016.
  */
 public class VoltageSolver<V extends Vertex, E extends Edge> {
-    Voltage<V, E> voltage;
-    Set<List<E>> cycles;
+    private Voltage<V, E> voltage;
+    private Set<List<E>> cycles;
     private Graph<V, E> graph;
 
     public VoltageSolver(Graph<V, E> graph, Set<List<E>> cycles, Voltage<V, E> voltage) {
