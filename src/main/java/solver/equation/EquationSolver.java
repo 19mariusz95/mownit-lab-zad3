@@ -49,6 +49,12 @@ public class EquationSolver {
             }
         }
 
+        double[] x = getResults(n);
+
+        return x;
+    }
+
+    private double[] getResults(int n) {
         double[] x = new double[n];
         for (int i = n - 1; i >= 0; i--) {
             x[i] = matrix.getMatrix()[i][n] / matrix.getMatrix()[i][i];
@@ -56,7 +62,6 @@ public class EquationSolver {
                 matrix.getMatrix()[k][n] -= matrix.getMatrix()[k][i] * x[i];
             }
         }
-
         return x;
     }
 }

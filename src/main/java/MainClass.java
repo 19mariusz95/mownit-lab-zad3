@@ -1,4 +1,4 @@
-import edu.uci.ics.jung.algorithms.layout.CircleLayout;
+import edu.uci.ics.jung.algorithms.layout.FRLayout;
 import edu.uci.ics.jung.algorithms.layout.Layout;
 import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.visualization.BasicVisualizationServer;
@@ -37,6 +37,8 @@ public class MainClass {
         }
         Graph<Vertex, Edge> graph = inputFileParser.getGraph();
         Voltage<Vertex, Edge> voltage = inputFileParser.getVoltage();
+        voltage.getV().setColor(Color.red);
+        voltage.getU().setColor(Color.red);
 
         CycleDetector<Vertex, Edge> cycleDetector = new CycleDetector<>(graph);
 
@@ -47,17 +49,31 @@ public class MainClass {
         VoltageSolver<Vertex, Edge> voltageSolver = new VoltageSolver<>(graph, cycles, voltage);
         Map<Edge, Double> current = voltageSolver.solve();
 
-        Layout<Vertex, Edge> circleLayout = new CircleLayout<>(graph);
-        BasicVisualizationServer<Vertex, Edge> basicVisualizationServer = new BasicVisualizationServer<>(circleLayout);
-        basicVisualizationServer.getRenderContext().setEdgeLabelTransformer(edge -> edge.getId() + " " + current.get(edge).toString() + " V");
-        basicVisualizationServer.getRenderContext().setVertexLabelTransformer(vertex -> String.valueOf(vertex.getId()));
-        basicVisualizationServer.setPreferredSize(new Dimension(800, 800));
+        BasicVisualizationServer<Vertex, Edge> basicVisualizationServer = getVisualizationServer(graph, current);
 
+        initFrame(basicVisualizationServer);
+    }
+
+    private static void initFrame(BasicVisualizationServer<Vertex, Edge> basicVisualizationServer) {
         JFrame frame = new JFrame("graph");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.getContentPane().add(basicVisualizationServer);
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+    }
+
+    private static BasicVisualizationServer<Vertex, Edge> getVisualizationServer(Graph<Vertex, Edge> graph, Map<Edge, Double> current) {
+        Layout<Vertex, Edge> circleLayout = new FRLayout<>(graph);
+        BasicVisualizationServer<Vertex, Edge> basicVisualizationServer = new BasicVisualizationServer<>(circleLayout);
+        initVisualizationServer(current, basicVisualizationServer);
+        return basicVisualizationServer;
+    }
+
+    private static void initVisualizationServer(Map<Edge, Double> current, BasicVisualizationServer<Vertex, Edge> basicVisualizationServer) {
+        basicVisualizationServer.getRenderContext().setEdgeLabelTransformer(edge -> current.get(edge).toString() + " V");
+        basicVisualizationServer.getRenderContext().setVertexLabelTransformer(vertex -> String.valueOf(vertex.getId()));
+        basicVisualizationServer.getRenderContext().setVertexFillPaintTransformer(Vertex::getColor);
+        basicVisualizationServer.setPreferredSize(new Dimension(800, 800));
     }
 }

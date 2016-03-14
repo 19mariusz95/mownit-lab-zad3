@@ -43,13 +43,11 @@ public class Matrix<V, E extends Edge> {
 
     private void fillMatrix(double[][] matrix, int columns) {
         int row = 0;
-        for (List<E> cycle : cycles) {
-            matrix[row][columns - 1] = voltage.getValue();
-            for (E edge : cycle) {
-                matrix[row][edge.getId()] = edge.getResistance();
-            }
-            row++;
-        }
+        row = fillWithCycles(matrix, columns, row);
+        fillWithVertices(matrix, row);
+    }
+
+    private void fillWithVertices(double[][] matrix, int row) {
         for (V vertex : graph.getVertices()) {
             for (E edge : graph.getInEdges(vertex))
                 matrix[row][edge.getId()] = 1.0;
@@ -57,6 +55,17 @@ public class Matrix<V, E extends Edge> {
                 matrix[row][edge.getId()] = -1.0;
             row++;
         }
+    }
+
+    private int fillWithCycles(double[][] matrix, int columns, int row) {
+        for (List<E> cycle : cycles) {
+            matrix[row][columns - 1] = voltage.getValue();
+            for (E edge : cycle) {
+                matrix[row][edge.getId()] = edge.getResistance();
+            }
+            row++;
+        }
+        return row;
     }
 
     private void resetMatrix(double[][] matrix, int rows, int columns) {
