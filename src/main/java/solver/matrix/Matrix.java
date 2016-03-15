@@ -2,9 +2,9 @@ package solver.matrix;
 
 import edu.uci.ics.jung.graph.Graph;
 import graph.Edge;
+import solver.cycle.Cycle;
 import voltage.Voltage;
 
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -13,12 +13,12 @@ import java.util.Set;
 public class Matrix<V, E extends Edge> {
     private double[][] matrix;
     private Graph<V, E> graph;
-    private Set<List<E>> cycles;
+    private Set<Cycle<E>> cycles;
     private Voltage<V, E> voltage;
     private int columns;
     private int rows;
 
-    public Matrix(Graph<V, E> graph, Set<List<E>> cycles, Voltage<V, E> voltage) {
+    public Matrix(Graph<V, E> graph, Set<Cycle<E>> cycles, Voltage<V, E> voltage) {
         this.graph = graph;
         this.cycles = cycles;
         this.voltage = voltage;
@@ -58,14 +58,8 @@ public class Matrix<V, E extends Edge> {
     }
 
     private int fillWithCycles(double[][] matrix, int columns, int row) {
-        for (List<E> cycle : cycles) {
-            matrix[row][columns - 1] = voltage.getValue();
-            for (E edge : cycle) {
-                matrix[row][edge.getId()] = edge.getResistance();
-            }
-            row++;
-        }
-        return row;
+        //TODO
+        return -1;
     }
 
     private void resetMatrix(double[][] matrix, int rows, int columns) {

@@ -5,7 +5,6 @@ import graph.Vertex;
 import org.junit.Test;
 import solver.VoltageSolverTest;
 
-import java.util.List;
 import java.util.Set;
 
 import static org.junit.Assert.assertTrue;
@@ -20,7 +19,7 @@ public class CycleDetectorTest extends VoltageSolverTest {
     public void testGetListOfCycles() throws Exception {
         CycleDetector<Vertex, Edge> cycleDetector = new CycleDetector<>(graph);
 
-        Set<List<Edge>> list = cycleDetector.getSetOfCycles(voltage);
+        Set<Cycle<Edge>> list = cycleDetector.getSetOfCycles(voltage);
 
         System.out.println(list);
         assertTrue(list.size() == 1);

@@ -1,7 +1,7 @@
 package parser;
 
 import edu.uci.ics.jung.graph.Graph;
-import edu.uci.ics.jung.graph.UndirectedSparseMultigraph;
+import edu.uci.ics.jung.graph.UndirectedSparseGraph;
 import factory.EdgeFactory;
 import factory.VertexFactory;
 import graph.Edge;
@@ -46,7 +46,7 @@ public class InputFileParser<V extends Vertex, E extends Edge> {
     }
 
     public void parseInput() throws FileNotFoundException {
-        graph = new UndirectedSparseMultigraph<>();
+        graph = new UndirectedSparseGraph<>();
         Scanner scanner = new Scanner(new FileInputStream(file));
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();

@@ -14,7 +14,12 @@ public class Cycle<E> {
     }
 
     public Cycle(List<E> edgeList) {
-        this.edgeList = edgeList;
+        this.edgeList = new ArrayList<>(edgeList);
+    }
+
+    @Override
+    public String toString() {
+        return edgeList.toString();
     }
 
     public void addEdge(E e) {

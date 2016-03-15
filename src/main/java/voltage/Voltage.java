@@ -1,11 +1,9 @@
 package voltage;
 
-import graph.Edge;
-
 /**
  * Created by Mariusz on 12.03.2016.
  */
-public class Voltage<Vertex, E extends Edge> {
+public class Voltage<Vertex, E> {
     private Vertex u;
     private Vertex v;
     private E edge;

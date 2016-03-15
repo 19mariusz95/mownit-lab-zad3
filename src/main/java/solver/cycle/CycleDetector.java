@@ -1,18 +1,19 @@
 package solver.cycle;
 
 import edu.uci.ics.jung.graph.Graph;
-import edu.uci.ics.jung.graph.util.Pair;
-import graph.Edge;
 import voltage.Voltage;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by Mariusz on 12.03.2016.
  */
 public class CycleDetector<V, E> {
     private Graph<V, E> graph;
-    private Set<List<E>> cycles;
+    private Set<Cycle<E>> cycles;
     private Map<V, Boolean> visited;
 
     public CycleDetector(Graph<V, E> graph) {
@@ -20,40 +21,40 @@ public class CycleDetector<V, E> {
         this.visited = new HashMap<>();
     }
 
-    public Set<List<E>> getSetOfCycles(Voltage<V, Edge> voltage) {
+    public Set<Cycle<E>> getSetOfCycles(Voltage<V, E> voltage) {
         cycles = new HashSet<>();
         V start = voltage.getU();
+        visited.put(start, true);
         V next = voltage.getV();
-        for (E edge : graph.getOutEdges(next)) {
-            Pair<V> pair = graph.getEndpoints(edge);
-            V nb = pair.getFirst() == next ? pair.getSecond() : pair.getFirst();
-            if (!visited.getOrDefault(nb, false)) {
-                visited.put(nb, true);
-                List<E> set = new ArrayList<>();
-                set.add(edge);
-                DFS(start, nb, set);
-                visited.put(nb, false);
-            }
-        }
+        visited.put(next, true);
+        Cycle<E> c = new Cycle<>();
+        c.addEdge(voltage.getEdge());
+        graph.getNeighbors(next).stream().filter(nb -> !visited.getOrDefault(nb, false)).forEach(nb -> {
+            searchCycle(start, next, nb, c);
+        });
         return cycles;
     }
 
-    private void DFS(V start, V v, List<E> edges) {
-        List<E> l = new ArrayList<>(edges);
-        if (v == start) {
-            cycles.add(l);
+    private void searchCycle(V start, V current, V nb, Cycle<E> c) {
+        E edge = graph.findEdge(current, nb);
+        Cycle<E> cycle = new Cycle<>(c.getEdgeList());
+        cycle.addEdge(edge);
+        DFS(start, nb, cycle);
+    }
+
+    private void DFS(V start, V cur, Cycle<E> c) {
+        if (cur == start) {
+            cycles.add(c);
         }
-        for (E edge : graph.getOutEdges(v)) {
-            Pair<V> pair = graph.getEndpoints(edge);
-            V nb = pair.getFirst() == v ? pair.getSecond() : pair.getFirst();
-            if (!l.contains(edge)) {
-                l.add(edge);
-                if (!visited.getOrDefault(nb, false)) {
-                    visited.put(nb, true);
-                    DFS(start, nb, l);
-                    visited.put(nb, false);
-                }
+        if (!visited.getOrDefault(cur, false)) {
+            visited.put(cur, true);
+            for (V nb : graph.getNeighbors(cur)) {
+                searchCycle(start, cur, nb, c);
+
             }
+            visited.put(cur, false);
         }
     }
+
+
 }
