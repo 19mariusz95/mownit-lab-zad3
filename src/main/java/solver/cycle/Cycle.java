@@ -6,27 +6,27 @@ import java.util.List;
 /**
  * Created by Mariusz on 15.03.2016.
  */
-public class Cycle<E> {
-    private List<E> edgeList;
+public class Cycle<V> {
+    private List<V> vertexList;
 
     public Cycle() {
-        this.edgeList = new ArrayList<>();
+        this.vertexList = new ArrayList<>();
     }
 
-    public Cycle(List<E> edgeList) {
-        this.edgeList = new ArrayList<>(edgeList);
+    public Cycle(List<V> vertexList) {
+        this.vertexList = new ArrayList<>(vertexList);
     }
 
     @Override
     public String toString() {
-        return edgeList.toString();
+        return vertexList.toString();
     }
 
-    public void addEdge(E e) {
-        this.edgeList.add(e);
+    public void addVertex(V e) {
+        this.vertexList.add(e);
     }
 
-    public List<E> getEdgeList() {
-        return edgeList;
+    public List<V> getVertexList() {
+        return vertexList;
     }
 }

@@ -42,7 +42,7 @@ public class MainClass {
 
         CycleDetector<Vertex, Edge> cycleDetector = new CycleDetector<>(graph);
 
-        Set<Cycle<Edge>> cycles = cycleDetector.getSetOfCycles(voltage);
+        Set<Cycle<Vertex>> cycles = cycleDetector.getSetOfCycles(voltage);
 
         System.out.println(cycles);
 

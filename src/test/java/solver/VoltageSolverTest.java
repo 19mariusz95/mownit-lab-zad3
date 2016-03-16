@@ -39,7 +39,7 @@ public class VoltageSolverTest {
         final double[] rtmp = {0.0};
         graph.getEdges().stream().forEach(e -> rtmp[0] += e.getResistance());
         for (Edge e : graph.getEdges()) {
-            assertEquals("edge: " + e.getId(), voltage.getValue() / rtmp[0], current.get(e), 0.05);
+            assertEquals("edge: " + e.getId(), voltage.getValue() / rtmp[0], Math.abs(current.get(e)), 0.05);
         }
     }
 }

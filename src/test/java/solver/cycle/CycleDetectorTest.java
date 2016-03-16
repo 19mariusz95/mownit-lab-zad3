@@ -19,7 +19,7 @@ public class CycleDetectorTest extends VoltageSolverTest {
     public void testGetListOfCycles() throws Exception {
         CycleDetector<Vertex, Edge> cycleDetector = new CycleDetector<>(graph);
 
-        Set<Cycle<Edge>> list = cycleDetector.getSetOfCycles(voltage);
+        Set<Cycle<Vertex>> list = cycleDetector.getSetOfCycles(voltage);
 
         System.out.println(list);
         assertTrue(list.size() == 1);

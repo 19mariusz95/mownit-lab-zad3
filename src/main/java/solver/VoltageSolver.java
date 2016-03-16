@@ -17,10 +17,10 @@ import java.util.Set;
  */
 public class VoltageSolver<V extends Vertex, E extends Edge> {
     private Voltage<V, E> voltage;
-    private Set<Cycle<E>> cycles;
+    private Set<Cycle<V>> cycles;
     private Graph<V, E> graph;
 
-    public VoltageSolver(Graph<V, E> graph, Set<Cycle<E>> cycles, Voltage<V, E> voltage) {
+    public VoltageSolver(Graph<V, E> graph, Set<Cycle<V>> cycles, Voltage<V, E> voltage) {
         this.graph = graph;
         this.voltage = voltage;
         this.cycles = cycles;

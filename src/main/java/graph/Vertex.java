@@ -14,6 +14,11 @@ public class Vertex {
         this.color = Color.orange;
     }
 
+    @Override
+    public String toString() {
+        return String.valueOf(id);
+    }
+
     public Color getColor() {
         return color;
     }

@@ -29,6 +29,8 @@ public class InputFileParser<V extends Vertex, E extends Edge> {
         this.file = file;
         parseStrategy = (v1, v2, value, graph1) -> {
             E e = edgeFactory.getEdge(value);
+            e.setU1id(v1.getId());
+            e.setU2id(v2.getId());
             graph1.addEdge(e, v1, v2);
         };
     }
