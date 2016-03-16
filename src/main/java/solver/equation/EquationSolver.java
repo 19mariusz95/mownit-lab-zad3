@@ -1,6 +1,7 @@
 package solver.equation;
 
 import solver.matrix.Matrix;
+import solver.matrix.MatrixOperations;
 
 import static java.lang.Math.abs;
 
@@ -15,51 +16,58 @@ public class EquationSolver {
     }
 
     public double[] solve() {
-
-        int columns = matrix.getColumns();
-        int n = columns - 1;
-
-        //TODO choose which rows can be removed
+        double[][] matrix = prepareMatrix();
+        int n = matrix.length;
 
         for (int i = 0; i < n; i++) {
-            double maxEl = abs(matrix.getMatrix()[i][i]);
+            double maxEl = abs(matrix[i][i]);
             int maxRow = i;
             for (int k = i + 1; k < n; k++) {
-                if (abs(matrix.getMatrix()[k][i]) > maxEl) {
-                    maxEl = abs(matrix.getMatrix()[k][i]);
+                if (abs(matrix[k][i]) > maxEl) {
+                    maxEl = abs(matrix[k][i]);
                     maxRow = k;
                 }
             }
 
             for (int k = i; k < n + 1; k++) {
-                double tmp = matrix.getMatrix()[maxRow][k];
-                matrix.getMatrix()[maxRow][k] = matrix.getMatrix()[i][k];
-                matrix.getMatrix()[i][k] = tmp;
+                double tmp = matrix[maxRow][k];
+                matrix[maxRow][k] = matrix[i][k];
+                matrix[i][k] = tmp;
             }
 
             for (int k = i + 1; k < n; k++) {
-                double c = -matrix.getMatrix()[k][i] / matrix.getMatrix()[i][i];
+                double c = -matrix[k][i] / matrix[i][i];
                 for (int j = i; j < n + 1; j++) {
                     if (i == j) {
-                        matrix.getMatrix()[k][j] = 0;
+                        matrix[k][j] = 0;
                     } else {
-                        matrix.getMatrix()[k][j] += c * matrix.getMatrix()[i][j];
+                        matrix[k][j] += c * matrix[i][j];
                     }
                 }
             }
         }
 
-        double[] x = getResults(n);
-
-        return x;
+        return getResults(matrix, n);
     }
 
-    private double[] getResults(int n) {
+    private double[][] prepareMatrix() {
+        double[][] matA = matrix.getMatrixA();
+        double[][] matB = matrix.getMatrixB();
+
+        double[][] matAT = MatrixOperations.getTranspose(matA);
+
+        double[][] A = MatrixOperations.getMultiplication(matAT, matA);
+        double[][] B = MatrixOperations.getMultiplication(matAT, matB);
+
+        return MatrixOperations.getConcatenate(A, B);
+    }
+
+    private double[] getResults(double[][] matrix, int n) {
         double[] x = new double[n];
         for (int i = n - 1; i >= 0; i--) {
-            x[i] = matrix.getMatrix()[i][n] / matrix.getMatrix()[i][i];
+            x[i] = matrix[i][n] / matrix[i][i];
             for (int k = i - 1; k >= 0; k--) {
-                matrix.getMatrix()[k][n] -= matrix.getMatrix()[k][i] * x[i];
+                matrix[k][n] -= matrix[k][i] * x[i];
             }
         }
         return x;

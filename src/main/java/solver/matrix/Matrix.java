@@ -13,13 +13,13 @@ import java.util.Set;
  * Created by Mariusz on 12.03.2016.
  */
 public class Matrix<V extends Vertex, E extends Edge> {
-    private double[][] matrix;
+    private double[][] matrixA;
+    private double[][] matrixB;
     private Graph<V, E> graph;
     private Set<Cycle<V>> cycles;
     private Voltage<V, E> voltage;
     private int columns;
     private int rows;
-
     public Matrix(Graph<V, E> graph, Set<Cycle<V>> cycles, Voltage<V, E> voltage) {
         this.graph = graph;
         this.cycles = cycles;
@@ -27,19 +27,24 @@ public class Matrix<V extends Vertex, E extends Edge> {
 
     }
 
-    public double[][] getMatrix() {
-        return matrix;
+    public double[][] getMatrixB() {
+        return matrixB;
+    }
+
+    public double[][] getMatrixA() {
+        return matrixA;
     }
 
     public void createMatrix() {
 
-        columns = graph.getEdgeCount() + 1;
+        columns = graph.getEdgeCount();
         rows = graph.getVertexCount() + cycles.size();
 
-        matrix = new double[rows][columns];
-        resetMatrix(matrix, rows, columns);
+        matrixA = new double[rows][columns];
+        matrixB = new double[rows][1];
+        resetMatrix(matrixA, rows, columns);
 
-        fillMatrix(matrix, columns);
+        fillMatrix(matrixA, columns);
 
     }
 
@@ -74,7 +79,7 @@ public class Matrix<V extends Vertex, E extends Edge> {
                 } else
                     matrix[row][edge.getId()] = -edge.getResistance();
             }
-            matrix[row][columns - 1] = voltage.getValue();
+            matrixB[row][0] = voltage.getValue();
             row++;
         }
         return row;
@@ -87,15 +92,15 @@ public class Matrix<V extends Vertex, E extends Edge> {
     }
 
     public void print() {
-        if (matrix == null)
+        if (matrixA == null)
             throw new IllegalStateException("Matrix is not built");
 
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
                 if (j < columns - 1) {
-                    System.out.print(matrix[i][j] + " ");
+                    System.out.print(matrixA[i][j] + " ");
                 } else {
-                    System.out.print("| " + matrix[i][j]);
+                    System.out.print("| " + matrixA[i][j]);
                 }
             }
             System.out.println();
@@ -109,4 +114,5 @@ public class Matrix<V extends Vertex, E extends Edge> {
     public int getColumns() {
         return columns;
     }
+
 }
