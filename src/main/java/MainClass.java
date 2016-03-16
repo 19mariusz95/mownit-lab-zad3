@@ -14,6 +14,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.text.DecimalFormat;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -71,7 +72,8 @@ public class MainClass {
     }
 
     private static void initVisualizationServer(Map<Edge, Double> current, BasicVisualizationServer<Vertex, Edge> basicVisualizationServer) {
-        basicVisualizationServer.getRenderContext().setEdgeLabelTransformer(edge -> current.get(edge).toString() + " V");
+        DecimalFormat df = new DecimalFormat("#.##");
+        basicVisualizationServer.getRenderContext().setEdgeLabelTransformer(edge -> df.format(current.get(edge)) + " V");
         basicVisualizationServer.getRenderContext().setVertexLabelTransformer(vertex -> String.valueOf(vertex.getId()));
         basicVisualizationServer.getRenderContext().setVertexFillPaintTransformer(Vertex::getColor);
         basicVisualizationServer.setPreferredSize(new Dimension(800, 800));
