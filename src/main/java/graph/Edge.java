@@ -6,7 +6,7 @@ import java.util.Objects;
  * Created by Mariusz on 12.03.2016.
  */
 public class Edge {
-    private static int nextID = 0;
+    public static int nextID = 0;
     private double resistance;
     private int id;
     private int u1id;

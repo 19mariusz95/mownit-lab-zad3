@@ -24,7 +24,7 @@ public class VoltageSolverTest {
 
     @Before
     public void setUp() throws Exception {
-        File file = new File(VoltageSolverTest.class.getResource("test.txt").getPath());
+        File file = new File(VoltageSolverTest.class.getResource("graph.txt").getPath());
         InputFileParser<Vertex, Edge> inputFileParser = new InputFileParser<>(id -> new Vertex(id), r -> new Edge(r), file);
         inputFileParser.parseInput();
         graph = inputFileParser.getGraph();

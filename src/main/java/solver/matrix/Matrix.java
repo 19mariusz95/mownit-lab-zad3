@@ -37,7 +37,7 @@ public class Matrix<V extends Vertex, E extends Edge> {
 
     public void createMatrix() {
 
-        columns = graph.getEdgeCount();
+        columns = Edge.nextID;
         rows = graph.getVertexCount() + cycles.size();
 
         matrixA = new double[rows][columns];

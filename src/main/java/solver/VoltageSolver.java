@@ -1,6 +1,7 @@
 package solver;
 
 import edu.uci.ics.jung.graph.Graph;
+import edu.uci.ics.jung.graph.util.Pair;
 import graph.Edge;
 import graph.Vertex;
 import solver.cycle.Cycle;
@@ -38,8 +39,12 @@ public class VoltageSolver<V extends Vertex, E extends Edge> {
 
         double[] result = equationSolver.solve();
 
-        for (int i = 0; i < result.length; i++)
-            System.out.println(i + " " + result[i]);
+        for (int i = 0; i < result.length; i++) {
+            final int finalI = i;
+            E edge = graph.getEdges().stream().filter(f -> f.getId() == finalI).findAny().get();
+            Pair<V> endpoints = graph.getEndpoints(edge);
+            System.out.println(endpoints.getFirst().getId() + " " + endpoints.getSecond().getId() + "  :  " + result[i]);
+        }
 
         Map<E, Double> map = new HashMap<>();
         for (E e : graph.getEdges()) {

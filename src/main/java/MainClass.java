@@ -45,8 +45,6 @@ public class MainClass {
 
         Set<Cycle<Vertex>> cycles = cycleDetector.getSetOfCycles(voltage);
 
-        System.out.println(cycles);
-
         VoltageSolver<Vertex, Edge> voltageSolver = new VoltageSolver<>(graph, cycles, voltage);
         Map<Edge, Double> current = voltageSolver.solve();
 
@@ -76,6 +74,6 @@ public class MainClass {
         basicVisualizationServer.getRenderContext().setEdgeLabelTransformer(edge -> df.format(current.get(edge)) + " V");
         basicVisualizationServer.getRenderContext().setVertexLabelTransformer(vertex -> String.valueOf(vertex.getId()));
         basicVisualizationServer.getRenderContext().setVertexFillPaintTransformer(Vertex::getColor);
-        basicVisualizationServer.setPreferredSize(new Dimension(800, 800));
+        basicVisualizationServer.setPreferredSize(new Dimension(1000, 800));
     }
 }
