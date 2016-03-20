@@ -18,8 +18,7 @@ public class Matrix<V extends Vertex, E extends Edge> {
     private Graph<V, E> graph;
     private Set<Cycle<V>> cycles;
     private Voltage<V, E> voltage;
-    private int columns;
-    private int rows;
+
     public Matrix(Graph<V, E> graph, Set<Cycle<V>> cycles, Voltage<V, E> voltage) {
         this.graph = graph;
         this.cycles = cycles;
@@ -37,8 +36,8 @@ public class Matrix<V extends Vertex, E extends Edge> {
 
     public void createMatrix() {
 
-        columns = Edge.nextID;
-        rows = graph.getVertexCount() + cycles.size();
+        int columns = Edge.nextID;
+        int rows = graph.getVertexCount() + cycles.size();
 
         matrixA = new double[rows][columns];
         matrixB = new double[rows][1];
@@ -90,29 +89,4 @@ public class Matrix<V extends Vertex, E extends Edge> {
             for (int j = 0; j < columns; j++)
                 matrix[i][j] = 0.0;
     }
-
-    public void print() {
-        if (matrixA == null)
-            throw new IllegalStateException("Matrix is not built");
-
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < columns; j++) {
-                if (j < columns - 1) {
-                    System.out.print(matrixA[i][j] + " ");
-                } else {
-                    System.out.print("| " + matrixA[i][j]);
-                }
-            }
-            System.out.println();
-        }
-    }
-
-    public int getRows() {
-        return rows;
-    }
-
-    public int getColumns() {
-        return columns;
-    }
-
 }

@@ -33,8 +33,6 @@ public class VoltageSolver<V extends Vertex, E extends Edge> {
 
         matrix.createMatrix();
 
-        matrix.print();
-
         EquationSolver equationSolver = new EquationSolver(matrix);
 
         double[] result = equationSolver.solve();

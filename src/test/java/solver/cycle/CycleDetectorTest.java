@@ -21,7 +21,6 @@ public class CycleDetectorTest extends BaseTest {
 
         Set<Cycle<Vertex>> list = cycleDetector.getSetOfCycles(voltage);
 
-        System.out.println(list);
         assertTrue(list.size() == 1);
     }
 }
