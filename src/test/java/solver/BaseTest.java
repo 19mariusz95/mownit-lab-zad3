@@ -18,6 +18,7 @@ public class BaseTest {
 
     @Before
     public void setUp() throws Exception {
+        Edge.nextID = 0;
         File file = new File(VoltageSolverTest.class.getResource("test.txt").getPath());
         InputFileParser<Vertex, Edge> inputFileParser = new InputFileParser<>(id -> new Vertex(id), r -> new Edge(r), file);
         inputFileParser.parseInput();
