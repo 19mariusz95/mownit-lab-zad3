@@ -18,6 +18,11 @@
   1 2 10
 ```
 
+# Must Have
+1) Java 1.8
+
+2) Maven
+
 # Run
 1) mvn package
 
